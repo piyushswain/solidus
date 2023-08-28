@@ -9,6 +9,7 @@ module Spree
 
     acts_as_list
 
+    before_save :check_method
     has_many :shipments
     has_many :stock_items, dependent: :delete_all, inverse_of: :stock_location
     has_many :cartons, inverse_of: :stock_location
@@ -32,6 +33,10 @@ module Spree
     after_save :ensure_one_default
 
     self.whitelisted_ransackable_attributes = %w[name]
+
+    def check_method
+      binding.pry
+    end
 
     def state_text
       state.try(:abbr) || state.try(:name) || state_name

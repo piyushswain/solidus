@@ -21,6 +21,7 @@ module Spree
       private
 
       def set_shipping_category
+        binding.pry
         return true if params["shipping_method"][:shipping_categories] == ""
         @shipping_method.shipping_categories = Spree::ShippingCategory.where(id: params["shipping_method"][:shipping_categories])
         @shipping_method.save

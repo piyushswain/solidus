@@ -12,6 +12,8 @@ module Spree
       Spree::Deprecation
     )
 
+    before_save :check_method
+
     has_many :shipping_method_categories, dependent: :destroy
     has_many :shipping_categories, through: :shipping_method_categories
     has_many :shipping_rates, inverse_of: :shipping_method
@@ -35,6 +37,10 @@ module Spree
     scope :available_to_store, ->(store) do
       raise ArgumentError, "You must provide a store" if store.nil?
       store.shipping_methods.empty? ? all : where(id: store.shipping_methods.ids)
+    end
+
+    def check_method
+      binding.pry
     end
 
     # @param shipping_category_ids [Array<Integer>] ids of desired shipping categories
@@ -118,6 +124,7 @@ module Spree
     private
 
     def at_least_one_shipping_category
+      binding.pry
       if shipping_categories.empty?
         errors.add(:base, "You need to select at least one shipping category")
       end
